@@ -3,11 +3,11 @@
 -->
 
 <script id="title" type="text/uduvudu-template">
-    <h1><%-obj.u%></h1>
+    <h1><%-title.u%></h1>
 </script>
 
 <script id="text" type="text/uduvudu-template">
-    <p><%-obj.u%></p>
+    <p><%-text.u%></p>
 </script>
 
 <script id="license" type="text/uduvudu-template">
@@ -23,8 +23,8 @@
 
 
 <script id="title_text" type="text/uduvudu-template">
-    <%=template(title)%>
-    <%=template(text)%>
+    <%=template(title_text.title)%>
+    <%=template(title_text.text)%>
 </script>
 
 <script id="community" type="text/uduvudu-template">
@@ -37,8 +37,8 @@
 </script>
 
 <script id="label_comment" type="text/uduvudu-template">
-    <%=template(title)%>
-    <%=template(text)%>
+    <%=template(label_comment.title)%>
+    <%=template(label_comment.text)%>
 </script>
 
 <script id="community_stat" type="text/x-handlebars-template">
@@ -49,19 +49,19 @@
 
 <script id="elevation" type="text/x-handlebars-template">
   <div style="float: left; min-width: 200px;">
-      <p><i class="glyphicon glyphicon-stats"></i> Elevation: <%=obj.u%> m</p>
+      <p><i class="glyphicon glyphicon-stats"></i> Elevation: <%=elevation.u%> m</p>
   </div>
 </script>
 
 <script id="area" type="text/x-handlebars-template">
   <div style="float: left; min-width: 200px;">
-      <p><i class="glyphicon glyphicon-stats"></i> Area: <%=obj.u%> km<sup>2</sup></p>
+      <p><i class="glyphicon glyphicon-stats"></i> Area: <%=area.u%> km<sup>2</sup></p>
   </div>
 </script>
 
 <script id="website" type="text/x-handlebars-template">
   <div style="float: left; min-width: 200px;">
-      <p><i class="glyphicon glyphicon-link"></i> <a href="<%=obj.u%>"><%=obj.u%></a></p>
+      <p><i class="glyphicon glyphicon-link"></i> <a href="<%=website.u%>"><%=website.u%></a></p>
   </div>
 </script>
 
@@ -71,7 +71,7 @@
     <br>
     <h3>Temperatures per Month</h3>
     <canvas id="mhltemp" width="560px" height="200px"></canvas>
-    <p>Temperatures in °C/month: <span style="color: rgba(220,220,220,1)">Daily Mean</span>, <span style="color: rgba(120,120,220,1)">Average Low</span>, <span style="color: rgba(220,120,120,1)">Average High</span></p>
+    <p>Temperatures in °C/month: <span style="color: rgba(120,120,220,1)">Average Low</span>, <span style="color: rgba(220,220,220,1)">Daily Mean</span>, <span style="color: rgba(220,120,120,1)">Average High</span></p>
   </div>
 </script>
 
@@ -85,21 +85,20 @@
               labels : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
               datasets : [
                 {
-                  fillColor : "rgba(220,120,120,0.5)",
+                  fillColor : "rgba(120,120,220,0.5)",
                   strokeColor : "rgba(220,220,220,1)",
-                  data : [<%=tempC.highC.jan.u%>,<%=tempC.highC.feb.u%>,<%=tempC.highC.mar.u%>,<%=tempC.highC.apr.u%>,<%=tempC.highC.may.u%>,<%=tempC.highC.jun.u%>,<%=tempC.highC.jul.u%>,<%=tempC.highC.aug.u%>,<%=tempC.highC.sep.u%>,<%=tempC.highC.oct.u%>,<%=tempC.highC.nov.u%>,<%=tempC.highC.dec.u%>]
+                  data : [<%=num(tempC.lowC.jan.u)%>,<%=num(tempC.lowC.feb.u)%>,<%=num(tempC.lowC.mar.u)%>,<%=num(tempC.lowC.apr.u)%>,<%=num(tempC.lowC.may.u)%>,<%=num(tempC.lowC.jun.u)%>,<%=num(tempC.lowC.jul.u)%>,<%=num(tempC.lowC.aug.u)%>,<%=num(tempC.lowC.sep.u)%>,<%=num(tempC.lowC.oct.u)%>,<%=num(tempC.lowC.nov.u)%>,<%=num(tempC.lowC.dec.u)%>]
                 },
                 {
                   fillColor : "rgba(220,220,220,0.5)",
                   strokeColor : "rgba(220,220,220,1)",
-                  data : [<%=tempC.meanC.jan.u%>,<%=tempC.meanC.feb.u%>,<%=tempC.meanC.mar.u%>,<%=tempC.meanC.apr.u%>,<%=tempC.meanC.may.u%>,<%=tempC.meanC.jun.u%>,<%=tempC.meanC.jul.u%>,<%=tempC.meanC.aug.u%>,<%=tempC.meanC.sep.u%>,<%=tempC.meanC.oct.u%>,<%=tempC.meanC.nov.u%>,<%=tempC.meanC.dec.u%>]
-                },
-                {
-                  fillColor : "rgba(120,120,220,0.5)",
+                  data : [<%=num(tempC.meanC.jan.u)%>,<%=num(tempC.meanC.feb.u)%>,<%=num(tempC.meanC.mar.u)%>,<%=num(tempC.meanC.apr.u)%>,<%=num(tempC.meanC.may.u)%>,<%=num(tempC.meanC.jun.u)%>,<%=num(tempC.meanC.jul.u)%>,<%=num(tempC.meanC.aug.u)%>,<%=num(tempC.meanC.sep.u)%>,<%=num(tempC.meanC.oct.u)%>,<%=num(tempC.meanC.nov.u)%>,<%=num(tempC.meanC.dec.u)%>]
+               },
+               {
+                  fillColor : "rgba(220,120,120,0.5)",
                   strokeColor : "rgba(220,220,220,1)",
-                  data : [<%=tempC.lowC.jan.u%>,<%=tempC.lowC.feb.u%>,<%=tempC.lowC.mar.u%>,<%=tempC.lowC.apr.u%>,<%=tempC.lowC.may.u%>,<%=tempC.lowC.jun.u%>,<%=tempC.lowC.jul.u%>,<%=tempC.lowC.aug.u%>,<%=tempC.lowC.sep.u%>,<%=tempC.lowC.oct.u%>,<%=tempC.lowC.nov.u%>,<%=tempC.lowC.dec.u%>]
-                }
-
+                  data : [<%=num(tempC.highC.jan.u)%>,<%=num(tempC.highC.feb.u)%>,<%=num(tempC.highC.mar.u)%>,<%=num(tempC.highC.apr.u)%>,<%=num(tempC.highC.may.u)%>,<%=num(tempC.highC.jun.u)%>,<%=num(tempC.highC.jul.u)%>,<%=num(tempC.highC.aug.u)%>,<%=num(tempC.highC.sep.u)%>,<%=num(tempC.highC.oct.u)%>,<%=num(tempC.highC.nov.u)%>,<%=num(tempC.highC.dec.u)%>]
+               }
               ]
             }
             new Chart(ctx).Bar(data);
@@ -132,14 +131,14 @@
                 }
               ]
             }
-            new Chart(ctx).Bar(data);
+            new Chart(ctx).Bar(data, {scaleOverride: true,scaleSteps: 10, scaleStepWidth: 10, scaleBeginAtZero : true});
         };
         document.body.appendChild(script);
 </script>
 
 
 <script id="location" type="text/uduvudu-template">
-    <div id="map-canvas" style="height: 205px; width: 600px; float: left;">
+    <div id="map-canvas" style="height: 213px; width: 600px; float: left;">
         <big>&#8982;</big> <%-location.lat.u%> / <%-location.long.u%>
     </div> 
 </script>
