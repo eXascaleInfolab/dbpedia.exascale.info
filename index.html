@@ -1,0 +1,119 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/typeahead.css" rel="stylesheet">
+    <script src="lib/underscore-1.6.0.js" type="text/javascript"></script>
+    <script src="lib/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="typeahead.js/dist/typeahead.bundle.js" type="text/javascript"></script>
+    <script src="lib/rdf.js"></script>
+    <script src="lib/n3-browser.js"></script>
+    <script src="lib/jsonld.js"></script>
+    <script src="lib/rdf-ext.js"></script>
+    <script src="matcher.js" type="text/javascript"></script>
+    <script src="src/uduvudu.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="container">
+	<div id="intro">
+	Please start searching for an entry in DBpedia. To confirm your decision select a proposition in the list.
+	</div>
+        <div id="chooser">
+            <form class="form-inline" role="form">
+            <input class="typeahead form-control" type="text" placeholder="search ...">
+            </form> 
+            <!--
+            <form class="form-inline" role="form">
+                <select id="selectSource" class="form-control">
+                    <option>Select a sample RDF URI</option>
+                    <option data-res="http://dbpedia.org/resource/Bern">http://dbpedia.org/data/Bern.ttl</option>
+                    <option data-res="http://dbpedia.org/resource/Fribourg">http://dbpedia.org/data/Fribourg.ttl</option>
+                </select>
+            </form> 
+            -->
+        </div>
+        <div id="main">
+        </div>
+        <div id="footer">
+
+        </div>
+    </div>
+    <div id="visualizer">
+    </div>
+    <script type="text/javascript">
+
+        // typeahead source
+        var dbpedia = function() {
+          return function findMatches(q, cb) {
+            $.ajax(
+                "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryClass=&MaxHits=15&QueryString="+q,
+                {dataType: "json"}
+            ).done(function(data) {
+                cb(_.sortBy(_.sortBy(data.results, function(b){return b.label.length}),function(s){return -s.label.search(new RegExp('^'+q,'i'))}));
+            });
+          };
+        };
+
+        // initialize type ahead
+        $('#chooser .typeahead').typeahead({
+          hint: true,
+          autoselect: true,
+          highlight: true,
+          minLength: 2
+        },
+        {
+          name: 'dbpedia',
+          displayKey: 'label',
+          source: dbpedia()
+        });
+
+        // prepare visualizer templates for uduvudu
+        $("#visualizer").load("visualizer.html");
+
+        // helper to decipher the get query
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function loadFromSource(source, resource) {
+            var store = new rdf.LdpStore();
+            $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
+            if (source.substring(0,4) === "http") {
+                store.graph(source, function(graph, error){
+                    if (error == null) {
+                        console.debug("successfully loaded "+graph.toArray().length+" triples");
+                        $("#main").html(uduvudu.process(graph, source.replace("data","resource").replace(".ttl","") ));
+                    }; 
+                })
+            };
+        };
+
+        // if uri is specified in title get it
+        var uri = getParameterByName('uri');
+        if (uri != '') {
+            loadFromSource(uri, uri);
+            }
+
+        $('#chooser .typeahead').on('typeahead:selected', function (event, d) {
+	    var uri = d.uri.replace("resource", "data") + ".ttl";
+            loadFromSource(uri, d.uri);
+        });
+
+        $('#setSource').on('keyup', function() {
+            loadFromSource(this.value, $('#setResource').val());
+        });
+
+        $('#setResource').on('keyup', function() {
+            loadFromSource($('#setSource').val(), this.value);
+        });
+
+        $('#selectSource').on('change', function(event) {
+            loadFromSource(this.value, event.target.selectedOptions[0].attributes['data-res'].nodeValue);
+            //loadFromSource(this.value);
+        });
+    </script>
+</body>
+</html>
