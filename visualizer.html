@@ -15,10 +15,7 @@
 </script>
 
 <script id="name" type="text/uduvudu-template">
-  <div style="height: 235px; width: 235px; float: left; overflow: scroll;">
-      <p><%-name.u%></p>
-      <p><small><% print(_.toArray(name.l).join(', ')) %></small></p>
-  </div>
+    <p><small><% print(_.toArray(name.l).join(', ')) %></small></p>
 </script>
 
 
@@ -26,6 +23,18 @@
     <%=template(title_text.title)%>
     <%=template(title_text.text)%>
 </script>
+
+<script id="wikiInfo" type="text/uduvudu-template">
+  <div style="height: 235px; width: 235px; float: left;">
+    <img style="width: 30px; height: 30px; float: left;" src="http://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg">
+    <p><big>&nbsp;Wikipedia</big></p>
+    <p>
+      ID: <a href="http://en.wikipedia.org/?curid=<%=wikiInfo.wikiPageID.u%>"><%=wikiInfo.wikiPageID.u%></a> <br>
+      Revision: <%=wikiInfo.wikiPageRevisionID.u%>
+    </p>
+  </div>
+</script>
+
 
 <script id="community" type="text/uduvudu-template">
   <div style="height: 235px; width: 470px; background-color: lightgrey; padding: 4px; float: left; overflow: scroll;">

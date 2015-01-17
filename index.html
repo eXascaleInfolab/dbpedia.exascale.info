@@ -3,9 +3,10 @@
     <meta charset="UTF-8">
     <link href="lib/bootstrap.min.css" rel="stylesheet">
     <link href="css/typeahead.css" rel="stylesheet">
-    <script src="lib/underscore-1.6.0.js" type="text/javascript"></script>
+    <script src="lib/underscore-min.js" type="text/javascript"></script>
     <script src="lib/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="typeahead.js/dist/typeahead.bundle.js" type="text/javascript"></script>
+    <script src="ldf-client-browser.js"></script>
     <script src="lib/rdf.js"></script>
     <script src="lib/n3-browser.js"></script>
     <script src="lib/jsonld.js"></script>
@@ -20,7 +21,7 @@
 	</div>
         <div id="chooser">
             <form class="form-inline" role="form">
-            <input class="typeahead form-control" type="text" placeholder="search ...">
+            <input class="typeahead form-control" type="text" placeholder="search ..." autofocus>
             </form> 
             <!--
             <form class="form-inline" role="form">
@@ -79,16 +80,30 @@
         }
 
         function loadFromSource(source, resource) {
-            var store = new rdf.LdpStore();
             $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
-            if (source.substring(0,4) === "http") {
-                store.graph(source, function(graph, error){
+
+	    var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
+
+            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 10000',
+            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 10000',
+            results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient });
+	    var rdfstring = '';
+
+	    //write back to string, to get reparsed by n3 again, not perfect
+            var writer = new N3.Writer({ write: function (chunk, encoding, done) {
+               rdfstring = rdfstring + chunk; 
+	       done && done();
+            }}, {});
+            results.on('data', function (triple) { writer.addTriple(triple); })
+                   .on('end',  function () { writer.end();
+
+                rdf.parseTurtle(rdfstring, function(graph, error){
                     if (error == null) {
-                        console.debug("successfully loaded "+graph.toArray().length+" triples");
-                        $("#main").html(uduvudu.process(graph, source.replace("data","resource").replace(".ttl","") ));
+                        $("#main").html(uduvudu.process(graph, source));
                     }; 
-                })
-            };
+                });
+	    });
+
         };
 
         // if uri is specified in title get it
@@ -98,7 +113,7 @@
             }
 
         $('#chooser .typeahead').on('typeahead:selected', function (event, d) {
-	    var uri = d.uri.replace("resource", "data") + ".ttl";
+	    var uri = d.uri;//.replace("resource", "data") + ".ttl";
             loadFromSource(uri, d.uri);
         });
 
