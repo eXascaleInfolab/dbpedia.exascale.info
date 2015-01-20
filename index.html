@@ -16,9 +16,9 @@
 </head>
 <body>
     <div class="container">
-	<div id="intro">
-	Please start searching for an entry in DBpedia. To confirm your decision select a proposition in the list.
-	</div>
+    <div id="intro">
+Please start searching for an entry in DBpedia. To confirm your decision select a proposition in the list.
+    </div>
         <div id="chooser">
             <form class="form-inline" role="form">
             <input class="typeahead form-control" type="text" placeholder="search ..." autofocus>
@@ -82,17 +82,17 @@
         function loadFromSource(source, resource) {
             $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
 
-	    var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
+            ldf.Logger.setLevel('warning');
+            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
+            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 10000';
+            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 10000';
+            results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
+            var rdfstring = '';
 
-            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 10000',
-            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 10000',
-            results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient });
-	    var rdfstring = '';
-
-	    //write back to string, to get reparsed by n3 again, not perfect
+            //write back to string, to get reparsed by n3 again, not perfect
             var writer = new N3.Writer({ write: function (chunk, encoding, done) {
                rdfstring = rdfstring + chunk; 
-	       done && done();
+               done && done();
             }}, {});
             results.on('data', function (triple) { writer.addTriple(triple); })
                    .on('end',  function () { writer.end();
@@ -100,9 +100,11 @@
                 rdf.parseTurtle(rdfstring, function(graph, error){
                     if (error == null) {
                         $("#main").html(uduvudu.process(graph, source));
+                    } else {
+                        console.log(error, rdfstring);
                     }; 
                 });
-	    });
+        });
 
         };
 
