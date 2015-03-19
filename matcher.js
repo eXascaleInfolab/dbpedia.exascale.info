@@ -22,14 +22,14 @@ var combineMatchers = [
 ];
 
 var linkMatchers = [
-    {matcherName: "inventor", predicate: "http://www.patexpert.org/ontologies/pmo.owl#inventorOf", resourcePosition: "object", templateVariable: "inventor", templateId: "inventor", order: 1000000, linkIds: ['lastName']},
-    {matcherName: "neighboringMunicipality", predicate: "http://dbpedia.org/ontology/neighboringMunicipality", templateId: "neighboringMunicipality", templateVariable: "neighboringMunicipality", order: 9000000, linkIds: ['rdfschema_label']},
+    {matcherName: "neighboringMunicipality", predicate: "http://dbpedia.org/property/neighboringMunicipalities", templateId: "neighboringMunicipality", templateVariable: "neighboringMunicipality", order: 6000000, linkIds: ['rdfschema_label']},
     {matcherName: "addressPart", predicate: "http://www.w3.org/2000/10/swap/pim/contact#address", templateVariable: "addressLink", templateId: "address", order: 1000000, linkIds: ['addressPartCombine']},
     {matcherName: "creator", predicate: "http://purl.org/dc/terms/creator", templateVariable: "creator", templateId: "creator", order: 20000, linkIds: ['rdfschema_label'] },
 ];
 
 var predicateMatchers = [
     {matcherName: "rdfschema_label", predicate: "http://www.w3.org/2000/01/rdf-schema#label", templateVariable: "title", templateId: "title", order: 1100000 },
+    {matcherName: "quote", predicate: "http://dbpedia.org/property/quote", templateVariable: "quote", templateId: "quote", order: 50000 },
     {matcherName: "skos_prefLabel", predicate: "http://www.w3.org/2004/02/skos/core#prefLabel", templateVariable: "title", templateId: "title", order: 60000 },
     {matcherName: "skos_altLabel", predicate: "http://www.w3.org/2004/02/skos/core#altLabel", templateVariable: "text", templateId: "text", order: 60000 },
     {matcherName: "schema_name", predicate: "http://schema.org/name", templateVariable: "title", templateId: "title", order: 60000 },
@@ -45,7 +45,7 @@ var predicateMatchers = [
     {matcherName: "created", predicate: "http://purl.org/dc/terms/created", templateId: "created", order: 20000 },
     {matcherName: "text", predicate: "http://rdfs.org/sioc/ns#content", templateId: "text", order: 90000 },
     {matcherName: "comment", predicate: "http://www.w3.org/2000/01/rdf-schema#comment", templateVariable: "text", templateId: "text", order: 90000 },
-    {matcherName: "abstract", predicate: "http://dbpedia.org/ontology/abstract", templateVariable: "text", templateId: "text", order: 90000 },
+    {matcherName: "abstract", predicate: "http://dbpedia.org/ontology/abstract", templateVariable: "abstract", templateId: "abstract", order: 90000 },
     {matcherName: "elevation", predicate: "http://dbpedia.org/ontology/elevation", templateId: "elevation", order: 9400000 },
     {matcherName: "wikiPageRevisionID", predicate: "http://dbpedia.org/ontology/wikiPageRevisionID", templateId: "wikiPageRevisionID", order: 20000 },
     {matcherName: "wikiPageID", predicate: "http://dbpedia.org/ontology/wikiPageID", templateId: "wikiPageID", order: 20000 },
