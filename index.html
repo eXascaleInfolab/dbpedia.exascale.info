@@ -22,7 +22,23 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         <div id="chooser">
             <br>
             <form class="form-inline" role="form">
-            <input class="typeahead form-control" type="text" placeholder="search ..." autofocus>
+              <div class="form-group col-md-10" style="padding-left: 0">
+                <input class="typeahead form-control" type="text" placeholder="search ..." autofocus>
+              </div>
+              <div class="form-group" style="width: 13.5%;">
+                <select id="language" class="form-control">
+                  <option></option>
+                  <option>en</option>
+                  <option>de</option>
+                  <option>nl</option>
+                  <option>fr</option>
+                  <option>it</option>
+                  <option>es</option>
+                  <option>zh</option>
+                  <option>ru</option>
+                  <option>ja</option>
+                </select>
+              </div>
             </form> 
             <!--
             <form class="form-inline" role="form">
@@ -68,6 +84,13 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
           displayKey: 'label',
           source: dbpedia()
         });
+        
+        var language = '';
+
+        document.getElementById('language').onchange = function (e) {
+          language = this.options[this.selectedIndex].value;
+          if (uduvudu.resource) {uduvudu.reprocess(null, null, language);};
+        };
 
         // prepare visualizer templates for uduvudu
         $("#visualizer").load("visualizer.html");
@@ -96,13 +119,13 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
                done && done();
             }}, {});
             results.on('data', function (triple) { writer.addTriple(triple); })
-                   .on('end',  function () { writer.end();
+                   .on('end',  function () {
 
-            	$("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
-
+                writer.end();
+                $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
                 rdf.parseTurtle(rdfstring, function(graph, error){
                     if (error == null) {
-                        $("#main").html(uduvudu.process(graph, source));
+                        uduvudu.process(graph, source, language, null, function (out) { $("#main").html(out); });
                     } else {
                         console.log(error, rdfstring);
                     }; 
@@ -118,7 +141,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
             }
 
         $('#chooser .typeahead').on('typeahead:selected', function (event, d) {
-	    var uri = d.uri;
+            var uri = d.uri;
             loadFromSource(uri, d.uri);
         });
 
