@@ -10,9 +10,9 @@
 </script>
 
 <script id="neighboringMunicipality" type="text/uduvudu-template">
-  <div style="width: 560px; float: left;">
+  <div style="width: 235px; float: left;">
       <p><b>Neighboring municipalities:</b></p>
-      <p><% console.log(neighboringMunicipality ); _.each(neighboringMunicipality, function (municipality) { print(municipality.title.u + ", "); }) %></p>
+      <p><ul><% _.each(neighboringMunicipality, function (municipality) { print('<li><a href="?res='+ municipality.title.m.r+'">'+municipality.title.u + "</a></li>"); }) %></ul></p>
   </div>
 </script>
 

@@ -22,7 +22,7 @@ var combineMatchers = [
 ];
 
 var linkMatchers = [
-    {matcherName: "neighboringMunicipality", predicate: "http://dbpedia.org/property/neighboringMunicipalities", templateId: "neighboringMunicipality", templateVariable: "neighboringMunicipality", order: 6000000, linkIds: ['rdfschema_label']},
+    {matcherName: "neighboringMunicipality", predicate: "http://dbpedia.org/property/neighboringMunicipalities", templateId: "neighboringMunicipality", templateVariable: "neighboringMunicipality", order: 4000000, linkIds: ['rdfschema_label']},
     {matcherName: "addressPart", predicate: "http://www.w3.org/2000/10/swap/pim/contact#address", templateVariable: "addressLink", templateId: "address", order: 1000000, linkIds: ['addressPartCombine']},
     {matcherName: "creator", predicate: "http://purl.org/dc/terms/creator", templateVariable: "creator", templateId: "creator", order: 20000, linkIds: ['rdfschema_label'] },
 ];
@@ -45,7 +45,7 @@ var predicateMatchers = [
     {matcherName: "created", predicate: "http://purl.org/dc/terms/created", templateId: "created", order: 20000 },
     {matcherName: "text", predicate: "http://rdfs.org/sioc/ns#content", templateId: "text", order: 90000 },
     {matcherName: "comment", predicate: "http://www.w3.org/2000/01/rdf-schema#comment", templateVariable: "text", templateId: "text", order: 90000 },
-    {matcherName: "abstract", predicate: "http://dbpedia.org/ontology/abstract", templateVariable: "abstract", templateId: "abstract", order: 90000 },
+    {matcherName: "abstract", predicate: "http://dbpedia.org/ontology/abstract", templateVariable: "abstract", templateId: "abstract", order: 6000000 },
     {matcherName: "elevation", predicate: "http://dbpedia.org/ontology/elevation", templateId: "elevation", order: 9400000 },
     {matcherName: "wikiPageRevisionID", predicate: "http://dbpedia.org/ontology/wikiPageRevisionID", templateId: "wikiPageRevisionID", order: 20000 },
     {matcherName: "wikiPageID", predicate: "http://dbpedia.org/ontology/wikiPageID", templateId: "wikiPageID", order: 20000 },

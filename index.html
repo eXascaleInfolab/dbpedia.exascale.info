@@ -110,13 +110,13 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         };
 
         // if uri is specified in title get it
-        var uri = getParameterByName('uri');
+        var uri = getParameterByName('res');
         if (uri != '') {
             loadFromSource(uri, uri);
             }
 
         $('#chooser .typeahead').on('typeahead:selected', function (event, d) {
-	    var uri = d.uri;//.replace("resource", "data") + ".ttl";
+	    var uri = d.uri;
             loadFromSource(uri, d.uri);
         });
 
@@ -130,7 +130,6 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
 
         $('#selectSource').on('change', function(event) {
             loadFromSource(this.value, event.target.selectedOptions[0].attributes['data-res'].nodeValue);
-            //loadFromSource(this.value);
         });
     </script>
 </body>
