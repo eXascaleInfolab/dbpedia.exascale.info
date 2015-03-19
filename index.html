@@ -85,7 +85,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
 
             ldf.Logger.setLevel('warning');
             var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
-            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 10000';
+            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 100000';
             //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 10000';
             results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
             var rdfstring = '';
