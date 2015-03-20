@@ -6,10 +6,10 @@ var combineMatchers = [
     {matcherName: "community_stat", templateId: "community_stat", combineIds: ['area','elevation','website'], order: 10010000 },
     {matcherName: "label_comment", templateId: "label_comment", combineIds: ['rdfschema_label','comment'], order: 10100000 },
     {matcherName: "person_name", templateId: "person_name", combineIds: ['lastName','firstName'], order: 10000000 },
-    {matcherName: "multiple_name_1", templateId: "title", combineIds: ['schema_name','rdfschema_label','skos_prefLabel'], order: 10000000 },
-    {matcherName: "multiple_name_2", templateId: "title", combineIds: ['schema_name','rdfschema_label'], order: 10000000 },
-    {matcherName: "multiple_name_3", templateId: "title", combineIds: ['rdfschema_label','skos_prefLabel'], order: 10000000 },
-    {matcherName: "multiple_name_4", templateId: "title", combineIds: ['schema_name','skos_prefLabel'], order: 10000000 },
+    {matcherName: "multiple_name_1", templateId: "mtitle", templateVariable: "mtitle", combineIds: ['schema_name','rdfschema_label','skos_prefLabel'], order: 10000000 },
+    {matcherName: "multiple_name_2", templateId: "mtitle", templateVariable: "mtitle", combineIds: ['schema_name','rdfschema_label'], order: 10000000 },
+    {matcherName: "multiple_name_3", templateId: "mtitle", templateVariable: "mtitle", combineIds: ['rdfschema_label','skos_prefLabel'], order: 10000000 },
+    {matcherName: "multiple_name_4", templateId: "mtitle", templateVariable: "mtitle", combineIds: ['schema_name','skos_prefLabel'], order: 10000000 },
     {matcherName: "location", templateId: "location", combineIds: ['lat','long'], order: 9000000 },
     {matcherName: "createMeta", templateId: "createMeta", combineIds: ['created','creator'], order: 10000000 },
     {matcherName: "address_line2", templateId: "address_line2", combineIds: ['street','street2'], order: 10000000 },
@@ -23,6 +23,7 @@ var combineMatchers = [
 
 var linkMatchers = [
     {matcherName: "neighboringMunicipality", predicate: "http://dbpedia.org/property/neighboringMunicipalities", templateId: "neighboringMunicipality", templateVariable: "neighboringMunicipality", order: 4000000, linkIds: ['rdfschema_label']},
+    {matcherName: "category", predicate: "http://purl.org/dc/terms/subject", templateId: "category", templateVariable: "category", order: 4000000, linkIds: ['rdfschema_label']},
     {matcherName: "addressPart", predicate: "http://www.w3.org/2000/10/swap/pim/contact#address", templateVariable: "addressLink", templateId: "address", order: 1000000, linkIds: ['addressPartCombine']},
     {matcherName: "creator", predicate: "http://purl.org/dc/terms/creator", templateVariable: "creator", templateId: "creator", order: 20000, linkIds: ['rdfschema_label'] },
 ];

@@ -5,6 +5,10 @@
     <h1><%-title.u%></h1>
 </script>
 
+<script id="mtitle" type="text/uduvudu-template">
+    <h1><%-mtitle.title.u%></h1>
+</script>
+
 <script id="text" type="text/uduvudu-template">
     <p><%-text.u%></p>
 </script>
@@ -15,6 +19,13 @@
       <p><ul><% _.each(neighboringMunicipality, function (municipality) { print('<li><a href="?res='+ municipality.title.m.r+'">'+municipality.title.u + "</a></li>"); }) %></ul></p>
   </div>
 </script>
+
+<script id="category" type="text/uduvudu-template">
+  <div style="width: 235px; float: left;">
+      <p><ul><% _.each(category, function (category) { print('<li><a href="?res='+ category.title.m.r+'">'+category.title.u + "</a></li>"); }) %></ul></p>
+  </div>
+</script>
+
 
 <script id="abstract" type="text/uduvudu-template">
   <div style="width: 560px; padding: 4px; float: left;">
