@@ -108,7 +108,7 @@
   <div style="float: left">
     <br>
     <h3>Temperatures per Month</h3>
-    <canvas id="mhltemp" width="560px" height="200px"></canvas>
+    <canvas id="cvs_mhltemp" width="560px" height="200px"></canvas>
     <p>Temperatures in °C/month: <span style="color: rgba(120,120,220,1)">Average Low</span>, <span style="color: rgba(220,220,220,1)">Daily Mean</span>, <span style="color: rgba(220,120,120,1)">Average High</span></p>
   </div>
 </script>
@@ -118,7 +118,7 @@
         script.type = "text/javascript";
         script.src = "http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js";
         script.onload = function(){
-            var ctx = document.getElementById("mhltemp").getContext("2d");
+            var ctx = document.getElementById("cvs_mhltemp").getContext("2d");
             var data = {
               labels : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
               datasets : [
@@ -148,7 +148,7 @@
   <div style="float: left">
     <br>
     <h3>Humidity per Month</h3>
-    <canvas id="humidity" width="560px" height="200px"></canvas>
+    <canvas id="cvs_humidity" width="560px" height="200px"></canvas>
     <p>Humidity in %/month</p>
   </div>
 </script>
@@ -158,7 +158,7 @@
         script.type = "text/javascript";
         script.src = "http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js";
         script.onload = function(){
-            var ctx = document.getElementById("humidity").getContext("2d");
+            var ctx = document.getElementById("cvs_humidity").getContext("2d");
             var data = {
               labels : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
               datasets : [
