@@ -208,7 +208,14 @@
 <!-- container for literals -->
 <script id="literals" type="text/uduvudu-template">
     <div style="clear: both;">
-        <% _.each(literals, function(e) {print(template(e.literal))}); %>
+      <button class="btn btn-default col-md-12 btn-sm" type="button" data-toggle="collapse" data-target="#literalsCollapse" aria-expanded="false" aria-controls="literalsCollapse">
+      Show remaining literals 
+      </button>
+      <br>
+      <div class="collapse" id="literalsCollapse">
+          <% _.each(literals, function(e) {print(template(e.literal))}); %>
+      </div>
+      <br><br><br>
     </div>
 </script>
 
