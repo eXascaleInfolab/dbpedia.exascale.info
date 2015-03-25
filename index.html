@@ -90,7 +90,6 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
 
         document.getElementById('language').onchange = function (e) {
           language = this.options[this.selectedIndex].value;
-          console.log(language);
           if (uduvudu.options) {uduvudu.process(undefined, {'language': language});};
         };
 
