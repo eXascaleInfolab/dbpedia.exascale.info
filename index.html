@@ -59,6 +59,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
     <div id="visualizer">
     </div>
     <script type="text/javascript">
+        var t_start, t_loaded, t_end;
         // typeahead source
         var dbpedia = function() {
           return function findMatches(q, cb) {
@@ -88,7 +89,10 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
 
         document.getElementById('language').onchange = function (e) {
           language = this.options[this.selectedIndex].value;
-          if (uduvudu.options) {uduvudu.process(undefined, {'language': language});};
+          if (uduvudu.options) {
+            t_loaded = t_start =  +new Date();
+            uduvudu.process(undefined, {'language': language});
+          };
         };
 
         // prepare visualizer templates for uduvudu
@@ -103,7 +107,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         }
 
         function loadFromSource(source, resource) {
-            var t_start = +new Date();
+            t_start = +new Date();
             $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
 
             ldf.Logger.setLevel('warning');
@@ -120,9 +124,9 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
             }}, {});
             results.on('data', function (triple) { writer.addTriple(triple); })
                    .on('end',  function () {
-
                 writer.end();
-                var t_loaded = +new Date();
+                t_loaded = +new Date();
+
                 $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
                 rdf.parseTurtle(rdfstring, function(graph, error){
                     if (error == null) {
@@ -131,7 +135,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
                             {'resource':source, 'language': language},
                             function (out) {
                                 $("#main").html(out);
-                                var t_end = +new Date();
+                                t_end = +new Date();
                                 $("#footer").html( '<p>Loaded in ' + (t_loaded-t_start) +'ms; Processed in ' + (t_end-t_loaded) + 'ms</p>');
                             }
                         );
