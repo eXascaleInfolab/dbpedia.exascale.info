@@ -57,7 +57,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         var dbpedia = function() {
           return function findMatches(q, cb) {
             $.ajax(
-                "http://lookup.uduvudu.org/api/search/PrefixSearch?QueryClass=&MaxHits=15&QueryString="+q,
+                "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryClass=&MaxHits=15&QueryString="+q,
                 {dataType: "json"}
             ).done(function(data) {
                 cb(_.sortBy(_.sortBy(data.results, function(b){return b.label.length}),function(s){return -s.label.search(new RegExp('^'+q,'i'))}));
