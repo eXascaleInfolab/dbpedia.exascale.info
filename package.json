@@ -1,0 +1,21 @@
+{
+  "name": "uduvudu-dbpedia",
+  "description": "",
+  "version": "0.0.1",
+  "homepage": "https://dbpedia.exascale.info",
+  "browser": {
+    "typeahead.js": "./node_modules/typeahead.js/dist/typeahead.jquery.js"
+  },
+  "dependencies": {
+    "ldf-client": "^2.0.0",
+    "typeahead.js": "0.10.5",
+    "uduvudu": "git://github.com/uduvudu/uduvudu.git#npm"
+  },
+  "scripts": {
+    "build": "browserify src/uduvudu-dbpedia.js -o uduvudu-dbpedia-package.js",
+    "start": "http-server ./"
+  },
+  "license": "MIT",
+  "devDependencies": {
+  }
+}

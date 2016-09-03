@@ -3,8 +3,10 @@
     <meta charset="UTF-8">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="css/typeahead.css" rel="stylesheet">
-    <script src="matcher.js" type="text/javascript"></script>
+    <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="uduvudu-dbpedia-package.js" type="text/javascript"></script>
+    <script src="matcher.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="container" style="width: 560px">
@@ -99,7 +101,8 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
 
             ldf.Logger.setLevel('warning');
             var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015/en');
-            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}';
+            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}';
+            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 100000';
             results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
             var rdfstring = '';
 
@@ -114,7 +117,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
                 t_loaded = +new Date();
 
                 $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
-                rdf.parseTurtle(rdfstring, function(graph, error){
+                rdf.parsers.parse('text/turtle', rdfstring, function(error, graph){
                     if (error == null) {
                         uduvudu.process(
                             graph,
