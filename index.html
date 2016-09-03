@@ -51,7 +51,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         var dbpedia = function() {
           return function findMatches(q, cb) {
             $.ajax(
-                "http://lookup.dbpedia.org/api/search/PrefixSearch?QueryClass=&MaxHits=15&QueryString="+q,
+                "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryClass=&MaxHits=15&QueryString="+q,
                 {dataType: "json"}
             ).done(function(data) {
                 cb(_.sortBy(_.sortBy(data.results, function(b){return b.label.length}),function(s){return -s.label.search(new RegExp('^'+q,'i'))}));
@@ -98,9 +98,8 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
             $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
 
             ldf.Logger.setLevel('warning');
-            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2014/en');
-            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}} LIMIT 100000';
-            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 10000';
+            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015/en');
+            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}';
             results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
             var rdfstring = '';
 
