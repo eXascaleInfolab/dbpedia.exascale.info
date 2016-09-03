@@ -96,44 +96,41 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         }
 
         function loadFromSource(source, resource) {
-            t_start = +new Date();
-            $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
+            var query = "http://dbpedia.org/sparql?query="+encodeURIComponent("CONSTRUCT { <" + source + "> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE { <"+ source +"> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}")+"&format=text/turtle"
 
-            ldf.Logger.setLevel('warning');
-            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015-10/en');
-            //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}';
-            var ldfquery = 'CONSTRUCT WHERE {<'+source+'> ?p ?o.}';
-            results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
-            var rdfstring = '';
+            var store = new rdf.LdpStore();
 
-            //write back to string, to get reparsed by n3 again, not perfect
-            var writer = new N3.Writer({ write: function (chunk, encoding, done) {
-               rdfstring = rdfstring + chunk; 
-               done && done();
-            }}, {});
-            results.on('data', function (triple) { writer.addTriple(triple); })
-                   .on('end',  function () {
-                writer.end();
-                t_loaded = +new Date();
+            document.getElementById('main').innerHTML =  ''
+            + '<div class="alert alert-info">'
+            + '  <button type="button" class="close" data-dismiss="alert">&times;</button>'
+            + '  <strong>Loading</strong> '+source+' is being loaded ...'
+            + '</div>';
 
-                $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
-		console.log(rdfstring)
-                rdf.parsers.parse('text/turtle', rdfstring, function(error, graph){
+            // load triples
+            store.graph(query, function (error, graph) {
                     if (error == null) {
-                        uduvudu.process(
-                            graph,
-                            {'resource':source, 'language': language},
-                            function (out) {
-                                $("#main").html(out);
-                                t_end = +new Date();
-                                $("#footer").html( '<p>Loaded in ' + (t_loaded-t_start) +'ms; Processed in ' + (t_end-t_loaded) + 'ms</p>');
+                        console.debug("successfully loaded "+graph.toArray().length+" triples");
+                        // resource (entry for template search) is same as source in this example
+                        uduvudu.process(graph, {'resource': resource} , function (out) {
+                            // where to add the processed html
+                            var main = document.getElementById('main')
+                            // write the result of the processing in the main div
+                            main.innerHTML = out;
+                            // run scripts which were added
+                            var codes = main.getElementsByTagName("script");   
+                            for(var i=0;i<codes.length;i++)  
+                            {  
+                              eval(codes[i].text);
                             }
-                        );
+                        });
                     } else {
-                        console.log(error, rdfstring);
-                    }; 
+                        document.getElementById('main').innerHTML =  ''
+                        + '<div class="alert alert-danger">'
+                        + '  <button type="button" class="close" data-dismiss="alert">&times;</button>'
+                        + '  <strong>Error:</strong> '+ error +'.'
+                        + '</div>';
+                    };
                 });
-        });
 
         };
 
