@@ -100,9 +100,9 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
             $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Loading</strong> '+source+' is being loaded ...</div>');
 
             ldf.Logger.setLevel('warning');
-            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015/en');
+            var fragmentsClient = new ldf.FragmentsClient('http://fragments.dbpedia.org/2015-10/en');
             //var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE {<'+source+'> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}';
-            var ldfquery = 'CONSTRUCT { <'+source+'> ?p ?o.} WHERE {<'+source+'> ?p ?o.} LIMIT 100000';
+            var ldfquery = 'CONSTRUCT WHERE {<'+source+'> ?p ?o.}';
             results = new ldf.SparqlIterator(ldfquery, { fragmentsClient: fragmentsClient});
             var rdfstring = '';
 
@@ -117,6 +117,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
                 t_loaded = +new Date();
 
                 $("#main").html('<div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">&times;</button> <strong>Processing</strong> '+source+' is being processed ...</div>');
+		console.log(rdfstring)
                 rdf.parsers.parse('text/turtle', rdfstring, function(error, graph){
                     if (error == null) {
                         uduvudu.process(
