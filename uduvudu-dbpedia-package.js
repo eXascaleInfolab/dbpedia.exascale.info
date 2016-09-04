@@ -39122,11 +39122,8 @@ function Node (value, prev, next, list) {
 
 window._ = require('underscore');
 require('typeahead.js');
-
-// Make the ldf-client module available as a global browser object
 window.ldf = require('ldf-client');
 window.N3 = require('N3');
-
 require('uduvudu')
 
 },{"N3":1,"ldf-client":17,"typeahead.js":112,"uduvudu":114,"underscore":115}],124:[function(require,module,exports){
