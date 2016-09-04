@@ -16,7 +16,7 @@
 <script id="neighboringMunicipality" type="text/uduvudu-template">
   <div style="width: 235px; float: left;">
       <h4>Neighboring municipalities</h4>
-      <p><ul style="border-left: 1px solid lightgrey;"><% _.each(neighboringMunicipality, function (municipality) { print('<li><a href="?res='+ municipality.title.m.r+'">'+municipality.title.u + "</a></li>"); }) %></ul></p>
+      <p><ul style="border-left: 1px solid lightgrey;"><% _.each(neighboringMunicipality, function (municipality) { print('<li><a href="?res='+ municipality.title.m.r+'">'+municipality.title.u + "</a></li>"); console.log(municipality); }) %></ul></p>
   </div>
 </script>
 

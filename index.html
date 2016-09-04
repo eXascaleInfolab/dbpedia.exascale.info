@@ -74,7 +74,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
           source: dbpedia()
         });
         
-        var language = '';
+        var language = 'en';
 
         document.getElementById('language').onchange = function (e) {
           language = this.options[this.selectedIndex].value;
@@ -96,7 +96,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         }
 
         function loadFromSource(source, resource) {
-            var query = "http://dbpedia.org/sparql?query="+encodeURIComponent("CONSTRUCT { <" + source + "> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE { <"+ source +"> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}")+"&format=text/turtle"
+            var query = "http://dbpedia.org/sparql?query="+encodeURIComponent("CONSTRUCT { <" + source + "> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE { <"+ source +"> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}")+"&"+encodeURIComponent("format=text/turtle")
 
             var store = new rdf.LdpStore();
 
@@ -111,7 +111,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
                     if (error == null) {
                         console.debug("successfully loaded "+graph.toArray().length+" triples");
                         // resource (entry for template search) is same as source in this example
-                        uduvudu.process(graph, {'resource': resource} , function (out) {
+                        uduvudu.process(graph, {'resource': resource, 'language': language} , function (out) {
                             // where to add the processed html
                             var main = document.getElementById('main')
                             // write the result of the processing in the main div
