@@ -7,9 +7,9 @@
     "typeahead.js": "./node_modules/typeahead.js/dist/typeahead.jquery.js"
   },
   "dependencies": {
-    "ldf-client": "^2.0.0",
     "typeahead.js": "0.10.5",
-    "uduvudu": "git://github.com/uduvudu/uduvudu.git#npm"
+    "uduvudu": "git://github.com/uduvudu/uduvudu.git#npm",
+    "underscore": "^1.8.3"
   },
   "scripts": {
     "build": "browserify src/uduvudu-dbpedia.js -o uduvudu-dbpedia-package.js",
@@ -17,5 +17,6 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "browserify": "^13.1.0"
   }
 }
