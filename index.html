@@ -53,10 +53,11 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         var dbpedia = function() {
           return function findMatches(q, cb) {
             $.ajax(
-                "http://lookup.dbpedia.org/api/search/KeywordSearch?QueryClass=&MaxHits=15&QueryString="+q,
+                "https://lookup.dbpedia.org/api/prefix?format=json&query="+q,
                 {dataType: "json"}
             ).done(function(data) {
-                cb(_.sortBy(_.sortBy(data.results, function(b){return b.label.length}),function(s){return -s.label.search(new RegExp('^'+q,'i'))}));
+		  cb(data.docs)
+//                cb(_.sortBy(_.sortBy(data.docs, function(b){return b.label.length}),function(s){return -s.label.search(new RegExp('^'+q,'i'))}));
             });
           };
         };
@@ -96,6 +97,7 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
         }
 
         function loadFromSource(source, resource) {
+			    console.log(source, resource);
             var query = "http://dbpedia.org/sparql?query="+encodeURIComponent("CONSTRUCT { <" + source + "> ?p ?o. ?o <http://www.w3.org/2000/01/rdf-schema#label> ?l} WHERE { <"+ source +"> ?p ?o. OPTIONAL {?o <http://www.w3.org/2000/01/rdf-schema#label> ?l.}}")+"&format="+encodeURIComponent("text/turtle")
 
             var store = new rdf.LdpStore();
@@ -141,8 +143,8 @@ Please start searching for an entry in DBpedia by typing at least 3 letters. To 
             }
 
         $('#chooser .typeahead').on('typeahead:selected', function (event, d) {
-            var uri = d.uri;
-            loadFromSource(uri, d.uri);
+            var uri = d.resource[0];
+            loadFromSource(uri, uri);
         });
 
         $('#setSource').on('keyup', function() {
